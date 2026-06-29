@@ -30,17 +30,17 @@ The `AgentState` schema balances lean serialization with auditability:
 - **Total Scenarios**: 7
 - **Success Rate**: 100.00%
 - **Total Retries**: 0
-- **Total Interrupts**: 2
-- **Avg Nodes Visited**: 6.43
+- **Total Interrupts**: 4
+- **Avg Nodes Visited**: 12.86
 
 | Scenario | Expected Route | Actual Route | Success | Retries | Interrupts |
 |---|---|---|:---:|:---:|:---:|
 | `S01_simple` | `simple` | `simple` | ✅ | 0 | 0 |
 | `S02_tool` | `tool` | `tool` | ✅ | 0 | 0 |
 | `S03_missing` | `missing_info` | `missing_info` | ✅ | 0 | 0 |
-| `S04_risky` | `risky` | `risky` | ✅ | 0 | 1 |
+| `S04_risky` | `risky` | `risky` | ✅ | 0 | 2 |
 | `S05_error` | `error` | `error` | ✅ | 0 | 0 |
-| `S06_delete` | `risky` | `risky` | ✅ | 0 | 1 |
+| `S06_delete` | `risky` | `risky` | ✅ | 0 | 2 |
 | `S07_dead_letter` | `error` | `error` | ✅ | 0 | 0 |
 
 ## 5. Failure Analysis

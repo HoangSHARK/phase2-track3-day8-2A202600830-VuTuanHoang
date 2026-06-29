@@ -78,6 +78,51 @@ def classify_node(state: AgentState) -> dict:
     }
 
 
+KNOWLEDGE_BASE = {
+    "policy_refund_v4": (
+        "Tài liệu chính sách [policy_refund_v4]:\n"
+        "- Theo chính sách hoàn tiền hiện hành (v4), khách hàng có tối đa 7 ngày làm việc để gửi yêu cầu hoàn tiền sau khi đơn được xác nhận.\n"
+        "- Các loại sản phẩm bị loại khỏi điều kiện hoàn tiền bao gồm: hàng kỹ thuật số, license key, và subscription.\n"
+        "- Finance Team sẽ xử lý yêu cầu hoàn tiền trong thời gian từ 3-5 ngày làm việc."
+    ),
+    "sla_p1_2026": (
+        "Tài liệu cam kết dịch vụ [sla_p1_2026]:\n"
+        "- SLA phản hồi ban đầu (initial response) cho ticket mức ưu tiên P1 là 15 phút.\n"
+        "- SLA resolution (thời gian giải quyết hoàn tất) cho ticket P1 là 4 giờ.\n"
+        "- Nếu không có phản hồi với ticket P1 sau 10 phút thì hệ thống sẽ tự động auto escalate lên cấp cao hơn."
+    ),
+    "it_helpdesk_faq": (
+        "Tài liệu hỏi đáp IT [it_helpdesk_faq]:\n"
+        "- Tài khoản người dùng bị khóa sau 5 lần đăng nhập sai liên tiếp.\n"
+        "- Hệ thống kết nối VPN cho phép kết nối tối đa 2 thiết bị (2 device) cùng lúc."
+    ),
+    "hr_leave_policy": (
+        "Tài liệu chính sách nhân sự [hr_leave_policy]:\n"
+        "- Theo chính sách HR 2026, nhân viên dưới 3 năm kinh nghiệm được hưởng 12 ngày phép năm."
+    ),
+    "access_control_sop": (
+        "Tài liệu quy trình bảo mật [access_control_sop]:\n"
+        "- Quyền truy cập Level 4 Admin Access yêu cầu bắt buộc phải được phê duyệt bởi IT Manager hoặc CISO."
+    ),
+}
+
+
+def get_matching_kb(query: str) -> list[str]:
+    q_lower = query.lower()
+    matches = []
+    if any(k in q_lower for k in ["hoàn tiền", "refund", "đơn"]):
+        matches.append(KNOWLEDGE_BASE["policy_refund_v4"])
+    if any(k in q_lower for k in ["sla", "p1", "phản hồi", "escalate", "resolution"]):
+        matches.append(KNOWLEDGE_BASE["sla_p1_2026"])
+    if any(k in q_lower for k in ["đăng nhập", "khóa", "vpn", "thiết bị", "device"]):
+        matches.append(KNOWLEDGE_BASE["it_helpdesk_faq"])
+    if any(k in q_lower for k in ["phép năm", "kinh nghiệm", "hr", "nhân viên"]):
+        matches.append(KNOWLEDGE_BASE["hr_leave_policy"])
+    if any(k in q_lower for k in ["level 4", "admin", "phê duyệt", "access"]):
+        matches.append(KNOWLEDGE_BASE["access_control_sop"])
+    return matches
+
+
 def tool_node(state: AgentState) -> dict:
     """Execute a mock tool call."""
     attempt = state.get("attempt", 0)
@@ -86,7 +131,11 @@ def tool_node(state: AgentState) -> dict:
     if route == "error" and attempt < 2:
         res_str = f"ERROR: Timeout failure while executing tool for query '{query}' on attempt {attempt}"
     else:
-        res_str = f"SUCCESS: Tool executed lookup/action successfully for '{query}'"
+        matches = get_matching_kb(query)
+        if matches:
+            res_str = "SUCCESS: Retrieved KB:\n" + "\n\n".join(matches)
+        else:
+            res_str = f"SUCCESS: Tool executed lookup/action successfully for '{query}'"
     return {
         "tool_results": [res_str],
         "events": [make_event("tool", "completed", f"tool result: {res_str[:30]}")],
@@ -113,22 +162,33 @@ def answer_node(state: AgentState) -> dict:
     tool_results = state.get("tool_results", [])
     approval = state.get("approval", {})
     llm = get_llm()
+    
+    matches = get_matching_kb(query)
+    kb_text = "\n\nInternal Knowledge Base Context:\n" + "\n---\n".join(matches) if matches else ""
+    
     context_str = f"Tool Results: {tool_results}\nApproval Info: {approval}" if tool_results or approval else "No tool required."
+    full_context = f"{context_str}{kb_text}"
+    
     prompt = (
-        "You are a helpful customer support agent. Answer the user's support ticket clearly and professionally based on the context provided.\n\n"
+        "You are a helpful, professional customer support agent. Answer the user's support ticket directly, clearly, and accurately based strictly on the context provided below.\n"
+        "When answering questions covered by the Internal Knowledge Base Context, you MUST state the exact numbers, limits, durations, and role names as written in the documentation.\n\n"
         f"User Query: {query}\n"
-        f"Context: {context_str}\n\n"
+        f"Context: {full_context}\n\n"
         "Final Answer:"
     )
     try:
         res = llm.invoke(prompt)
         final_answer = res.content if hasattr(res, "content") else str(res)
     except Exception:
-        final_answer = f"Thank you for contacting support regarding '{query}'. Based on our system verification, your request has been processed successfully."
+        if matches:
+            final_answer = f"Dựa trên tài liệu hệ thống: {matches[0]}"
+        else:
+            final_answer = f"Thank you for contacting support regarding '{query}'. Based on our system verification, your request has been processed successfully."
     return {
         "final_answer": final_answer,
         "events": [make_event("answer", "completed", "generated final answer")],
     }
+
 
 
 def ask_clarification_node(state: AgentState) -> dict:

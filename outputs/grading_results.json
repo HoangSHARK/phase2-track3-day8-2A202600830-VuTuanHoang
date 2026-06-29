@@ -1,0 +1,148 @@
+[
+  {
+    "id": "gq_d10_01",
+    "question": "Theo chính sách hoàn tiền hiện hành, khách hàng có tối đa bao nhiêu ngày làm việc để gửi yêu cầu hoàn tiền sau khi đơn được xác nhận?",
+    "route": "simple",
+    "answer": "Theo chính sách hoàn tiền hiện hành (v4), khách hàng có tối đa **7 ngày làm việc** để gửi yêu cầu hoàn tiền sau khi đơn được xác nhận.",
+    "must_contain_any": [
+      "7 ngày",
+      "7 ngày làm việc"
+    ],
+    "must_not_contain": [
+      "14 ngày",
+      "14 ngày làm việc"
+    ],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_02",
+    "question": "Đâu là loại sản phẩm bị loại khỏi điều kiện hoàn tiền?",
+    "route": "simple",
+    "answer": "Theo chính sách hoàn tiền v4, các loại sản phẩm bị loại khỏi điều kiện hoàn tiền bao gồm: **hàng kỹ thuật số, license key, và subscription**.",
+    "must_contain_any": [
+      "hàng kỹ thuật số",
+      "license key",
+      "subscription"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_03",
+    "question": "Finance Team xử lý yêu cầu hoàn tiền trong bao lâu?",
+    "route": "simple",
+    "answer": "Finance Team sẽ xử lý yêu cầu hoàn tiền trong thời gian từ **3-5 ngày làm việc**.",
+    "must_contain_any": [
+      "3-5 ngày làm việc",
+      "3 đến 5 ngày"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_04",
+    "question": "SLA phản hồi ban đầu cho ticket P1 là bao lâu?",
+    "route": "simple",
+    "answer": "SLA phản hồi ban đầu cho ticket P1 là **15 phút**.",
+    "must_contain_any": [
+      "15 phút",
+      "15p"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_05",
+    "question": "SLA resolution cho ticket P1 là bao nhiêu giờ?",
+    "route": "simple",
+    "answer": "SLA resolution (thời gian giải quyết hoàn tất) cho ticket P1 là **4 giờ**.",
+    "must_contain_any": [
+      "4 giờ",
+      "4h"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_06",
+    "question": "Nếu không có phản hồi với ticket P1 sau bao lâu thì hệ thống auto escalate?",
+    "route": "simple",
+    "answer": "Nếu không có phản hồi với ticket P1 sau **10 phút**, hệ thống sẽ tự động auto escalate lên cấp cao hơn.",
+    "must_contain_any": [
+      "10 phút"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_07",
+    "question": "Tài khoản bị khóa sau bao nhiêu lần đăng nhập sai liên tiếp?",
+    "route": "simple",
+    "answer": "Tài khoản người dùng bị khóa sau **5 lần** đăng nhập sai liên tiếp.",
+    "must_contain_any": [
+      "5 lần"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_08",
+    "question": "VPN cho phép kết nối tối đa bao nhiêu thiết bị cùng lúc?",
+    "route": "simple",
+    "answer": "Hệ thống kết nối VPN cho phép kết nối tối đa **2 thiết bị** cùng lúc.",
+    "must_contain_any": [
+      "2 thiết bị",
+      "2 device",
+      "2"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_09",
+    "question": "Nhân viên dưới 3 năm kinh nghiệm được bao nhiêu ngày phép năm theo chính sách HR 2026?",
+    "route": "simple",
+    "answer": "Theo chính sách HR 2026, nhân viên dưới 3 năm kinh nghiệm được hưởng **12 ngày phép năm**.",
+    "must_contain_any": [
+      "12 ngày",
+      "12 ngày phép năm"
+    ],
+    "must_not_contain": [
+      "10 ngày phép năm",
+      "10 ngày phép"
+    ],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  },
+  {
+    "id": "gq_d10_10",
+    "question": "Level 4 Admin Access yêu cầu phê duyệt bởi ai?",
+    "route": "simple",
+    "answer": "Level 4 Admin Access yêu cầu phê duyệt bắt buộc từ **IT Manager** hoặc **CISO**.",
+    "must_contain_any": [
+      "IT Manager",
+      "CISO"
+    ],
+    "must_not_contain": [],
+    "pass_any": true,
+    "pass_not": true,
+    "passed": true
+  }
+]

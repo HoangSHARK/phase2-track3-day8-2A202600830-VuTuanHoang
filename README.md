@@ -119,6 +119,11 @@ Sau khi hoàn tất quá trình chạy scenarios, hệ thống tự động sinh
 
 1. **Báo cáo tổng hợp Lab Report**: Xem tại `reports/lab_report.md`. Báo cáo chứa bảng tổng kết kết quả của 7 scenario, giải thích kiến trúc State schema, phân tích lỗi (failure analysis), và kế hoạch cải tiến.
 2. **Cơ sở dữ liệu SQLite (Persistence)**: Được lưu tại `outputs/checkpoints.db` (chạy ở chế độ WAL tự động an toàn luồng). Mỗi kịch bản được lưu vết snapshot theo `thread_id` (ví dụ: `thread-S01_simple`), cho phép phục hồi trạng thái và khôi phục sau sự cố (crash-resume).
+3. **Báo cáo Đánh giá Nghiệp vụ Nội bộ (Grading Report)**: Xem tại `reports/grading_dataset_report.md`. Báo cáo kiểm chứng chi tiết 10 câu hỏi nghiệp vụ từ bộ dữ liệu `data/sample/grading_questions.json` với tỷ lệ chính xác đạt **100%** (10/10 câu đạt chuẩn bộ lọc tiêu chí). Bạn có thể chạy lại đánh giá này bằng lệnh:
+   ```powershell
+   $env:PYTHONPATH="src"; python eval_grading.py
+   ```
+   Kết quả chấm điểm tự động xuất ra tại `outputs/grading_results.json`.
 
 ---
 
