@@ -24,13 +24,19 @@ def get_llm(model: str | None = None, temperature: float = 0.0):
 
     Override model with the `model` parameter or LLM_MODEL env var.
     """
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
+
     if os.getenv("GEMINI_API_KEY"):
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
         except ImportError as exc:
             raise RuntimeError("Install: pip install langchain-google-genai") from exc
         return ChatGoogleGenerativeAI(
-            model=model or os.getenv("LLM_MODEL", "gemini-2.5-flash"),
+            model=model or os.getenv("LLM_MODEL") or os.getenv("DEFAULT_MODEL", "gemini-2.5-flash"),
             google_api_key=os.getenv("GEMINI_API_KEY"),
             temperature=temperature,
         )
@@ -40,10 +46,13 @@ def get_llm(model: str | None = None, temperature: float = 0.0):
             from langchain_openai import ChatOpenAI
         except ImportError as exc:
             raise RuntimeError("Install: pip install langchain-openai") from exc
-        return ChatOpenAI(
-            model=model or os.getenv("LLM_MODEL", "gpt-4o-mini"),
-            temperature=temperature,
-        )
+        kwargs = {
+            "model": model or os.getenv("LLM_MODEL") or os.getenv("DEFAULT_MODEL", "gpt-4o-mini"),
+            "temperature": temperature,
+        }
+        if os.getenv("OPENAI_BASE_URL"):
+            kwargs["base_url"] = os.getenv("OPENAI_BASE_URL")
+        return ChatOpenAI(**kwargs)
 
     if os.getenv("ANTHROPIC_API_KEY"):
         try:
@@ -51,7 +60,7 @@ def get_llm(model: str | None = None, temperature: float = 0.0):
         except ImportError as exc:
             raise RuntimeError("Install: pip install langchain-anthropic") from exc
         return ChatAnthropic(
-            model=model or os.getenv("LLM_MODEL", "claude-sonnet-4-20250514"),
+            model=model or os.getenv("LLM_MODEL") or os.getenv("DEFAULT_MODEL", "claude-sonnet-4-20250514"),
             temperature=temperature,
         )
 

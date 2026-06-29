@@ -9,6 +9,15 @@ because classify_node and answer_node use real LLM calls.
 
 import importlib.util
 import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent.parent / ".env")
+except ImportError:
+    pass
 
 import pytest
 
@@ -64,3 +73,8 @@ def test_graph_terminates_all_routes():
         events = result.get("events", [])
         finalize_events = [e for e in events if e.get("node") == "finalize"]
         assert finalize_events, f"Route {route.value} did not reach finalize node"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
+

@@ -1,0 +1,122 @@
+{
+  "total_scenarios": 8,
+  "success_rate": 1.0,
+  "avg_nodes_visited": 11.5,
+  "total_retries": 0,
+  "total_interrupts": 2,
+  "resume_success": false,
+  "scenario_metrics": [
+    {
+      "scenario_id": "C01_greeting",
+      "success": true,
+      "expected_route": "simple",
+      "actual_route": "simple",
+      "nodes_visited": 8,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": []
+    },
+    {
+      "scenario_id": "C02_billing_faq",
+      "success": true,
+      "expected_route": "simple",
+      "actual_route": "simple",
+      "nodes_visited": 8,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": []
+    },
+    {
+      "scenario_id": "C03_check_shipment",
+      "success": true,
+      "expected_route": "tool",
+      "actual_route": "tool",
+      "nodes_visited": 12,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": []
+    },
+    {
+      "scenario_id": "C04_verify_subscription",
+      "success": true,
+      "expected_route": "tool",
+      "actual_route": "tool",
+      "nodes_visited": 10,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": []
+    },
+    {
+      "scenario_id": "C05_ambiguous",
+      "success": true,
+      "expected_route": "missing_info",
+      "actual_route": "missing_info",
+      "nodes_visited": 8,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": []
+    },
+    {
+      "scenario_id": "C06_cancel_sub",
+      "success": true,
+      "expected_route": "risky",
+      "actual_route": "risky",
+      "nodes_visited": 16,
+      "retry_count": 0,
+      "interrupt_count": 2,
+      "approval_required": true,
+      "approval_observed": true,
+      "latency_ms": 0,
+      "errors": []
+    },
+    {
+      "scenario_id": "C07_database_timeout",
+      "success": true,
+      "expected_route": "error",
+      "actual_route": "error",
+      "nodes_visited": 20,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": [
+        "Attempt 1 failed due to transient tool error.",
+        "Attempt 2 failed due to transient tool error.",
+        "Attempt 1 failed due to transient tool error.",
+        "Attempt 2 failed due to transient tool error."
+      ]
+    },
+    {
+      "scenario_id": "C08_api_crash",
+      "success": true,
+      "expected_route": "error",
+      "actual_route": "error",
+      "nodes_visited": 10,
+      "retry_count": 0,
+      "interrupt_count": 0,
+      "approval_required": false,
+      "approval_observed": false,
+      "latency_ms": 0,
+      "errors": [
+        "Attempt 1 failed due to transient tool error.",
+        "Attempt 1 failed due to transient tool error."
+      ]
+    }
+  ]
+}

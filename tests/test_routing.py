@@ -4,7 +4,11 @@ These tests verify correct routing logic. They will fail with NotImplementedErro
 until you implement the routing functions in routing.py.
 """
 
+import sys
+from pathlib import Path
 import pytest
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from langgraph_agent_lab.routing import (
     route_after_approval,
@@ -23,20 +27,21 @@ def test_route_after_classify_tool():
     assert route_after_classify({"route": Route.TOOL.value}) == "tool"
 
 
-def test_route_after_classify_risky():
-    assert route_after_classify({"route": Route.RISKY.value}) == "risky_action"
-
-
 def test_route_after_classify_missing():
     assert route_after_classify({"route": Route.MISSING_INFO.value}) == "clarify"
+
+
+def test_route_after_classify_risky():
+    assert route_after_classify({"route": Route.RISKY.value}) == "risky_action"
 
 
 def test_route_after_classify_error():
     assert route_after_classify({"route": Route.ERROR.value}) == "retry"
 
 
-def test_route_after_classify_unknown_defaults():
-    assert route_after_classify({"route": "unknown_route"}) == "answer"
+def test_route_after_classify_unknown():
+    assert route_after_classify({"route": "unknown"}) == "answer"
+    assert route_after_classify({}) == "answer"
 
 
 def test_route_after_approval_approved():
@@ -45,6 +50,10 @@ def test_route_after_approval_approved():
 
 def test_route_after_approval_rejected():
     assert route_after_approval({"approval": {"approved": False}}) == "clarify"
+
+
+def test_route_after_approval_missing():
+    assert route_after_approval({}) == "clarify"
 
 
 def test_route_after_retry_within_limit():
@@ -67,3 +76,7 @@ def test_route_after_evaluate_success():
 
 def test_route_after_evaluate_retry():
     assert route_after_evaluate({"evaluation_result": "needs_retry"}) == "retry"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

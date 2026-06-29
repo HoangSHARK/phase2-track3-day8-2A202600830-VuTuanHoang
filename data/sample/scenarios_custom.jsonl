@@ -1,0 +1,8 @@
+{"id":"C01_greeting","query":"Hello, what are your business hours?","expected_route":"simple","requires_approval":false,"should_retry":false,"tags":["simple","faq"]}
+{"id":"C02_billing_faq","query":"Where can I download my monthly invoices?","expected_route":"simple","requires_approval":false,"should_retry":false,"tags":["simple","billing"]}
+{"id":"C03_check_shipment","query":"Check tracking status for shipment package #98765","expected_route":"tool","requires_approval":false,"should_retry":false,"tags":["tool","tracking"]}
+{"id":"C04_verify_subscription","query":"Please lookup order status and account database records for order 55555","expected_route":"tool","requires_approval":false,"should_retry":false,"tags":["tool","account"]}
+{"id":"C05_ambiguous","query":"Can you fix it?","expected_route":"missing_info","requires_approval":false,"should_retry":false,"tags":["clarification"]}
+{"id":"C06_cancel_sub","query":"Cancel my annual subscription immediately and issue a full refund","expected_route":"risky","requires_approval":true,"should_retry":false,"tags":["hitl","risky","refund"]}
+{"id":"C07_database_timeout","query":"Timeout failure while processing billing request","expected_route":"error","requires_approval":false,"should_retry":true,"tags":["retry","error"]}
+{"id":"C08_api_crash","query":"System failure cannot recover after multiple attempts on payment gateway","expected_route":"error","requires_approval":false,"should_retry":true,"max_attempts":1,"tags":["dead_letter","retry"]}

@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+import pytest
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
 from langgraph_agent_lab.metrics import metric_from_state, summarize_metrics
 from langgraph_agent_lab.state import make_event
 
@@ -43,3 +49,8 @@ def test_summarize_metrics():
     report = summarize_metrics([m1, m2])
     assert report.total_scenarios == 2
     assert 0 <= report.success_rate <= 1
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
+

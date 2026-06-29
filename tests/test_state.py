@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+import pytest
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
 from langgraph_agent_lab.scenarios import load_scenarios
 from langgraph_agent_lab.state import Route, Scenario, initial_state
 
@@ -28,3 +34,8 @@ def test_load_scenarios():
     scenarios = load_scenarios("data/sample/scenarios.jsonl")
     assert len(scenarios) >= 6
     assert {item.expected_route for item in scenarios} >= {Route.SIMPLE, Route.TOOL, Route.RISKY}
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
+
